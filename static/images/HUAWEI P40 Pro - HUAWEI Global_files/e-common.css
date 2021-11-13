@@ -1,0 +1,12 @@
+#ae-wrapper a.a-common[act='Click on Experience Learn more about Celia'],
+#ae-wrapper a.a-common[act='Click on Experience Learn more about EMUI'],
+#ae-wrapper .ae-gray-container,
+#ae-wrapper .ae-gray-container~.ae-space-xs,
+#ae-comparison,
+#ae-experience .ae-space-xlg {
+    display: none;
+}
+
+#ae-wrapper a.a-common[act='Click on Security AppGallery'] {
+    cursor: default;
+}

@@ -1,0 +1,7 @@
+$(function(){$(".adSlotDataLayer").on("click",function(){var c=$(this).attr("data-title");
+var d=$(this).attr("data-bannerName");
+var a=$(this).attr("data-bannerPosition");
+var b={event:"productAd",linkName:c,bannerName:d,bannerPosition:a,clickName:"product details_click to "+c+"_"+d+"_"+a,clickType:"action"};
+window.dataLayer.push(addATCommonFields(b))
+})
+});

@@ -1,0 +1,167 @@
+$(function() {
+    $('.ae-disclaimer').siblings('.ae-space-xlg').after('<div class="ae-space-xlg ae-hidden-lg"></div>');
+    //wechart share
+    var userAgentInfo = navigator.userAgent.toLowerCase();
+    var isWeixin = userAgentInfo.indexOf("micromessenger") != -1;
+    if (isWeixin) {
+        $.getScript("//res.wx.qq.com/open/js/jweixin-1.2.0.js", function(response, status) {
+            if (status == 'success') {
+                $.getScript("//consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/store/js/cbgwechatv1.js", function(r, s) {
+                    if (s == 'success') {
+                        var wxShare = setInterval(function() {
+                            if (typeof(WechatShare) != "undefined") {
+                                WechatShare({
+                                    url: window.location.href,
+                                    img: 'https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/p40-pro-share-en.jpg',
+                                    title: $(document).attr('title'),
+                                    descript: document.querySelector('meta[name=\"description\"]').getAttribute('content')
+                                }, function() {
+                                    alert('Thanks for sharing.');
+                                });
+                                clearInterval(wxShare)
+                            }
+                        }, 150)
+                    }
+                });
+            }
+        });
+    }
+    $(function() {
+        var videoList = {};
+
+        function checkVideoStatus(poster, status) {
+            for (var key in videoList) {
+                if (key == poster) {
+                    if (status == "firstplay") {
+                        if (videoList[key].firstplay) {
+                            videoList[key].firstplay = false
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else if (status == "firstend") {
+                        if (videoList[key].firstend) {
+                            videoList[key].firstend = false
+                            return true
+                        } else {
+                            return false
+                        }
+                    }
+                }
+            }
+            if (status == "firstplay") {
+                videoList[poster] = {
+                    firstplay: false,
+                    firstend: true
+                }
+            } else if (status == "firstend") {
+                videoList[poster] = {
+                    firstplay: true,
+                    firstend: false
+                }
+            }
+            return true
+        }
+
+        if ($("body").hasClass("huawei-v4")) {
+            $("#ae-fullscreen-video video").on("play", function() {
+                var _poster = $(this).attr("poster");
+                var videoName = _poster.split("/").pop().split(".")[0]
+                var videoLabel = window.digitalData.product.productInfo.marketingName + " - " + videoName + " - " + window.digitalData.page.pageInfo.pageName
+                if (checkVideoStatus(_poster, "firstplay")) {
+                    window.dataLayer.push({
+                        event: "video",
+                        videoStep: "play",
+                        videoName: videoLabel,
+                        productMktName: pageProductInfo && pageProductInfo.marketingName || "",
+                        productCategory: pageProductInfo && pageProductInfo.category || ""
+                    })
+                }
+            })
+            $("#ae-fullscreen-video video").on("ended", function() {
+                var _poster = $(this).attr("poster");
+                var videoName = _poster.split("/").pop().split(".")[0]
+                var videoLabel = window.digitalData.product.productInfo.marketingName + " - " + videoName + " - " + window.digitalData.page.pageInfo.pageName
+                if (checkVideoStatus(_poster, "firstend")) {
+                    window.dataLayer.push({
+                        event: "video",
+                        videoStep: "100%",
+                        videoName: videoLabel,
+                        productMktName: pageProductInfo && pageProductInfo.marketingName || "",
+                        productCategory: pageProductInfo && pageProductInfo.category || ""
+                    })
+                }
+            })
+        } else {
+            $("#ae-fullscreen-video video").on("play", function() {
+                var _poster = $(this).attr("poster");
+                var videoName = _poster.split("/").pop().split(".")[0]
+                var videoLabel = window.digitalData.product.productInfo.marketingName + " - " + videoName + " - " + window.digitalData.page.pageInfo.pageName
+                if (checkVideoStatus(_poster, "firstplay")) {
+                    window.ga ? trackEvent("Video Milestone", "Video Start", videoLabel, "") : console.log("Google Analytics not detected")
+                }
+            })
+            $("#ae-fullscreen-video video").on("ended", function() {
+                var _poster = $(this).attr("poster");
+                var videoName = _poster.split("/").pop().split(".")[0]
+                var videoLabel = window.digitalData.product.productInfo.marketingName + " - " + videoName + " - " + window.digitalData.page.pageInfo.pageName
+                if (checkVideoStatus(_poster, "firstend")) {
+                    window.ga ? trackEvent("Video Milestone", "Video Complete", videoLabel, "") : console.log("Google Analytics not detected")
+                }
+            })
+        }
+    })
+
+    if (window.digitalData.page.pageInfo.siteCode2 != "en") {
+        $("#ae-wrapper a.a-common[act='Click on Security AppGallery']").attr("href", "javascript:void(0);")
+    }
+
+
+
+
+})
+
+// v4.0 GA
+$(window).on('load',function() {
+    var pdpScrolingArr = []
+    $('.ae-section[data-id]').each(function() {
+        var idIndex = $(this).attr('data-id');
+        var offset = $(this).find('h3:visible').last().offset().top;
+        // var $moduelname = $('.ae-nav-container a[data-id=' + idIndex + '] span').text().trim().replace(/[\r\n]/g, "");
+        // var $lastpagename = $(this).find('h3:visible').last().html().trim().replace('<br>', ' ').replace(/(<sup>.*<\/sup>)/, '').replace(/[\r\n]/g, "").replace(/<.*?>/ig, '').replace(/&nbsp;/g, '').replace(/\s+/g, ' ');
+        var $moduelname = $('.ae-nav-container a[data-id=' + idIndex + '] span').attr('data-datalayer');
+        var $lastpagename = $(this).find('h3:visible').last().attr('data-datalayer');
+        pdpScrolingArr.push({
+            idIndex: idIndex,
+            moduelname: $moduelname,
+            lastpagename: $lastpagename,
+            offset: offset
+        })
+
+    })
+    var siteCode = digitalData.page.pageInfo.siteCode;
+    $(window).scroll(function() {
+        var scrollTop = $(document).scrollTop();
+        if (pdpScrolingArr.length > 0) {
+            if (scrollTop - pdpScrolingArr[0].offset > 0) {
+                if (siteCode == "by" || siteCode == "co" || siteCode == "th") {
+                    dataLayer.push(addATCommonFields({
+                        "event": "pdpScroling",
+                        "moduelname": pdpScrolingArr[0].moduelname,
+                        "lastpagename": pdpScrolingArr[0].lastpagename,
+                        "clickName" : "product details_scroll to " + pdpScrolingArr[0].moduelname + "_" + pdpScrolingArr[0].lastpagename,
+                        "clickType" : "action",
+                    }));
+                } else {
+                    dataLayer.push({
+                        "event": "pdpScroling",
+                        "moduelname": pdpScrolingArr[0].moduelname,
+                        "lastpagename": pdpScrolingArr[0].lastpagename
+                    })
+                }
+                pdpScrolingArr.splice(0, 1);
+            }
+
+        }
+    });
+});
