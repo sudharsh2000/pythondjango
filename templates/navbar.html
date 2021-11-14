@@ -4,8 +4,8 @@
 
 <style>
   .dropbtn {
-  background-color: grey;
-  color: white;
+  background-color: skyblue;
+  color: black;
   padding: 5px;
   font-size: 16px;
   border: none;
@@ -35,7 +35,11 @@
   text-decoration: none;
   display: block;
 }
-
+.abcd{background-color:#f5c71a;
+color:white;
+width:80px;
+height:40px;
+}
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
 
@@ -54,7 +58,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:skyblue;">
   <a class="navbar-brand" href="/"><img height="90px;" width="200px;" src="{% static 'images/tecno.png'%}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -107,8 +111,8 @@
     </ul>
     <form method="get" action="/search1"  class="form-inline my-2 my-lg-0">
       {% csrf_token %}
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" name="s" >
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <input  class="form-control mr-sm-2" type="text" placeholder="Search" name="s" >
+      <button class="abcd" type="submit">Search</button>
     </form>
   </div>
 </nav>
