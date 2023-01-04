@@ -5,6 +5,7 @@ from .models import mobiles,categ
 from  django.db.models import Q
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
 # Create your views here.
+
 def home(request,c_slug=None):
     c_page=None
     mob=None
@@ -65,3 +66,6 @@ def search1(request):
         query=request.GET.get('s')
         prod=mobiles.objects.all().filter(Q(mobname__contains=query)|Q(desc__contains=query))
     return render(request,'search.html',{'abc':prod})
+def realme(request,Realme=None):
+
+    return render(request)

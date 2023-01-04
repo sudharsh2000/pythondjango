@@ -4,7 +4,7 @@
 
 <style>
   .dropbtn {
-  background-color: gold;
+  background-color: white;
   color: black;
   padding: 5px;
   font-size: 16px;
@@ -27,6 +27,12 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
+.list1{margin-left:0px;}
+.list2{margin-left:00px;}
+.list3{margin-left:000px;}
+.list4{margin-left:200px;}
+.list5{margin-left:200px;}
+.list5{margin-left:200px;}
 .uname{margin-top:90px;
 color:blue;}
 /* Links inside the dropdown */
@@ -35,6 +41,8 @@ color:blue;}
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+}
+.bb{font-weight:100px;
 }
 .abcd{background-color:#f5c71a;
 color:white;
@@ -80,7 +88,7 @@ height:40px;
         <a class="nav-link" href="/carthome">Cart<i class="fa fa-shopping-cart" style="font-size:24px;color:green"></i></a>
     {% endif %}  </li>
       <li class="nav-item">
-        <a class="nav-link" href="/logout" >logout</a>
+        <a class="nav-link" href="/logout">logout</a>
 
       </li>
       {% else %}
@@ -93,6 +101,19 @@ height:40px;
       {% endif %}
         <li class="nav-item">
         <a class="nav-link" href="{{i.get_url}}">{{i.name}}</a>
+      </li>
+
+      <li>
+
+<div class="dropdown">
+  <button class="dropbtn">Categories</button>
+  {% for i in cc %}
+  <div class="dropdown-content">
+    <a href="{{i.get_url}}">{{i.name}}</a>
+     {% endfor %}
+  </div>
+</div>
+
       </li>
 
     </ul>
@@ -109,6 +130,35 @@ height:40px;
 
 </nav>
 
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:white;">
+
+  <a class="navbar-brand" href="/"></a>
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+<li>
+        <div class="dropdown">
+            <button class="dropbtn">Categories&nbsp;&nbsp;</button>
+  {% for i in cc %}
+  <div class="dropdown-content">
+    <a href="{{i.get_url}}">{{i.name}}</a>
+ {% endfor %}
+  </div>
+</div>
+</li>
+   {% for i in cc %}
+      <li class="list1">
+
+            <a class="btn dropbtn" href="{{i.get_url}}">{{i.name}}</a>
+      </li>
+        {% endfor %}
+
+</li>
+
+    </ul>
+  </div>
+</nav>
 </body>
 </html>
 {% block content %}

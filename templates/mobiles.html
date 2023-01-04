@@ -7,12 +7,9 @@
   <link rel="stylesheet" href="{% static 'css/cardview.css' %}" type="text/css">
 </head>
 
-<body>
+<body style="background-color:grey;">
 
-
-  <!-- Card Start -->
-
-  <div class="card ">
+<div class="card ">
             <div class="container">
                 <div class="row">
 
@@ -28,9 +25,11 @@
                         <div class="abc">
                         <a><h3>{{mm.mobname}}</h3></a>
                       <b>  Desc  :</b>&nbsp;&nbsp;<a>{{mm.desc}}</a><br><br><br>
-                            Price  :<a class="h">{{mm.price}}.Rs</a><br>
-                            <b>Stock:</b>&nbsp;&nbsp;<a>{{mm.stock}}psc</a><br><br>
+                            Price  :  <b><a class="h">₹{{mm.price}}</a></b><br>
+                            <b>Stock:</b>&nbsp;&nbsp;<b><a class="stock">{{mm.stock}}</a></b>left<br><br>
+                            {% if user.is_authenticated %}
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'add' mm.id %}" class="btn btn-success">Add to Cart</a>
+                            {% endif %}
 
                     </div>
                         {% for i in messages %}

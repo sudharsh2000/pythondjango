@@ -15,7 +15,9 @@ def cartid(request):
         a=request.session.create()
     return a
 
+def buy1(request):
 
+    return render(request,'buy.html')
 def add(request,id):
     m=mobiles.objects.get(id=id)
     try:
@@ -39,7 +41,7 @@ def carthome(request,count=0,tot=0,ct_items=None):
 
     try:
          c=cartlist.objects.get(cart_id=cartid(request))
-         ct_items=cartitem.objects.filter(cart=c,active=True)
+         ct_items=cartitem.objects.filter(cart=c)
          for i in ct_items:
             tot +=(i.mob2.price*i.quantity)
             count+=i.quantity

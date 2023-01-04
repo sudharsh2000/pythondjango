@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{% static 'css/searchlist.css' %}" type="text/css">
 </head>
 
-<body>
+<body style="background-color:grey;">
 
 
   <!-- Card Start -->
@@ -28,7 +28,7 @@
 
                     <div class="col-md-8">
                         <div class="abc">
-                        <a><h3>{{i.mobname}}</h3></a>
+                        <a href="{{i.get_url2}}"><h3>{{i.mobname}}</h3></a>
                       <b> </b>&nbsp;&nbsp;<a>{{i.desc|truncatewords:25}}</a><br>
                             <a class="h">{{i.price}}</a>.Rs<br>
                             {% if i.stock <= 0 %}
